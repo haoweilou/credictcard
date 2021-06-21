@@ -30,6 +30,7 @@ const updateCardName = () => {
     area.innerHTML = string;
     var signiture = document.getElementById("cardSigniture");
     signiture.innerHTML = string;
+    return string;
 }
 
 const updateCardNumber = () => {
@@ -64,6 +65,7 @@ const updateCVV = () => {
     cvvInputArea.value = cvv;
     var area = document.getElementById("cvvArea");
     area.innerHTML = cvv;
+    return cvv;
 }
 
 const displayFront = () => {

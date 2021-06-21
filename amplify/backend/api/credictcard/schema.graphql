@@ -1,0 +1,7 @@
+type Creditcard @model {
+  id: ID!
+  name: String!
+  number: String!
+  expire: String!
+  cvv: String
+}

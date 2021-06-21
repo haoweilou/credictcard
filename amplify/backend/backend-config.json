@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "credictcard4e6f3443": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

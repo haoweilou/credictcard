@@ -41,12 +41,23 @@ const Form = () => {
                     <label htmlFor="expireYear">Expire Time</label>
                     <div></div>
                     <label htmlFor="cvv">CVV</label>
-                    <select name="" id="expireYear" defaultValue="Year" onChange={updateExpire} onFocus={displayFront}>
+                    <select name="" 
+                        id="expireYear" 
+                        defaultValue="Year" 
+                        onChange={updateExpire} 
+                        onFocus={displayFront}
+                    >
                         <option value="">Year</option>
                         {yearOption}
                     </select>
 
-                    <select name="" id="expireMonth" defaultValue="Month" onChange={updateExpire} onFocus={displayFront}>
+                    <select 
+                        name="" 
+                        id="expireMonth" 
+                        defaultValue="Month" 
+                        onChange={updateExpire} 
+                        onFocus={displayFront}
+                    >
                         <option value="">Month</option>
                         {monthOption}
                     </select>

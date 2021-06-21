@@ -18,7 +18,6 @@ const Form = () => {
         const apiData = await API.graphql({query: listTodos });
         var items = apiData.data.listTodos.items;
         setCreditcards(items);
-        console.log(items);
     }
 
     const displayErrorMessage = (msg) => {
@@ -65,7 +64,7 @@ const Form = () => {
         var today = new Date();
         var currYear = today.getFullYear();
         var currMonth = today.getMonth();
-        if(year<currYear || (year === currYear && month < currMonth)){
+        if(year<currYear || (year === currYear && month-1 < currMonth)){
             displayErrorMessage("Card is expired! Select another card");
             return;
         }
@@ -76,12 +75,17 @@ const Form = () => {
             return;
         }
 
-        if(carExsit(number)){return;}
+        if(carExsit(number)){
+            displayErrorMessage("Card exits");
+            return;
+        }
 
         API.graphql({query:createTodo,variables:{input:data}})
         getList();
         checkCard();
-        
+        displayErrorMessage("Card saved");
+        window.location.reload();
+
     }
 
     function clearForm() {

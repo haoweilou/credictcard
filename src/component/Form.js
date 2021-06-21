@@ -1,4 +1,4 @@
-import { checkCard } from './Cardnumber';
+import { checkCard, getCardType } from './Cardnumber';
 import { updateCVV, updateCardName, updateExpire, displayFront, displayBack, updateDisplayCard } from './Card'
 import { API } from 'aws-amplify';
 import { createTodo, deleteTodo} from '../graphql/mutations';
@@ -20,6 +20,18 @@ const Form = () => {
         setCreditcards(items);
     }
 
+    const displayErrorMessage = (msg) => {
+        var errorArea =  document.getElementById("errorMsg")
+        if (errorArea.innerHTML === "&nbsp;") {
+            errorArea.innerHTML = msg;
+        }
+        setTimeout(function () {
+            if (errorArea.innerHTML !== "&nbsp;") {
+                errorArea.innerHTML = "&nbsp;";
+            }
+        }, 2000);
+    }
+
     const saveCreditcard = () => {
         var number = checkCard();
         var cvv = updateCVV();
@@ -31,13 +43,43 @@ const Form = () => {
             "expire": expire,
             "cvv": cvv
         }
-        console.log(creditcards);
-        console.log(getList());
-        if(!number || !cvv || !name || !expire){return;}
+        if(!number){
+            displayErrorMessage("Please enter a valid number card number");
+            return;
+        } 
+        if(getCardType(number)===""){
+            displayErrorMessage("Invalid card type");
+            return;
+        }
+        if(!name){
+            displayErrorMessage("Please enter a valid card holder name");
+            return;
+        }
+        if(!expire){
+            displayErrorMessage("Please enter a valid expiration");
+            return;
+        }
+        var year = parseInt(expire.split("/")[0]);
+        var month = parseInt(expire.split("/")[1]);
+        var today = new Date();
+        var currYear = today.getFullYear();
+        var currMonth = today.getMonth();
+        if(year<currMonth || (year === currYear && month < currMonth)){
+            displayErrorMessage("Card is expired! Select another card");
+            return;
+        }
+
+
+        if(!cvv){
+            displayErrorMessage("Please enter a valid cvv code");
+            return;
+        }
+
         if(carExsit(number)){return;}
 
         API.graphql({query:createTodo,variables:{input:data}})
         getList();
+
     }
 
     const carExsit = (number) => {
@@ -52,12 +94,12 @@ const Form = () => {
         var value = document.getElementById("previousCard").value;
         if(value === "card"){return;}
         var data = JSON.parse(value);
-        console.log(data);
         document.getElementById("cardName").value=data['name'];
         document.getElementById("cardNumber").value=data['number'];
         document.getElementById("cvv").value=data['cvv'];
         document.getElementById("expireMonth").value= parseInt(data['expire'].split("/")[0]);
         document.getElementById("expireYear").value=2000+parseInt(data['expire'].split("/")[1]);
+        checkCard();
         updateDisplayCard();
     }
 
@@ -148,6 +190,9 @@ const Form = () => {
                     <span>
                         Submit
                     </span>
+                </div>
+                <div className="erroMessage" id="errorMsg">
+                    &nbsp;
                 </div>
             </div>
         </div>

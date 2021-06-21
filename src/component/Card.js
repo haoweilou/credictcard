@@ -13,15 +13,6 @@ const CARD_IMAGE = {
     "":""
 }
 
-const CARD_COLOR = {
-    "master":'linear-gradient(#b21f1f,#fdbb2d)',
-    "visa":'linear-gradient(#02aab0,#00cdac)',
-    "amex":'linear-gradient(#667db6,#0082c8)',
-    "discover":'linear-gradient(#3B4371,#3B4371)',
-    "dinner-club":'linear-gradient(#003973,#E5E5BE)',
-    "":""
-}
-
 const updateDisplayCard = () => {
     updateCardNumber();
     updateCardName();

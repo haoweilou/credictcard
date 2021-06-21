@@ -9,6 +9,15 @@ const CARD_LOGO = {
     "dinner-club":'<i class="fab fa-cc-diners-club"></i>',
     "":""
 }
+
+const CARD_COLOR = {
+    "master":'linear-gradient(#b21f1f,#fdbb2d)',
+    "visa":'linear-gradient(#02aab0,#00cdac)',
+    "amex":'linear-gradient(#667db6,#0082c8)',
+    "discover":'linear-gradient(#3B4371,#3B4371)',
+    "dinner-club":'linear-gradient(#003973,#E5E5BE)',
+    "":""
+}
 //get raw card number from input
 const getCardNumber = () => {
     return document.getElementById("cardNumber").value;
@@ -62,6 +71,8 @@ const updateCardType = () => {
     var type = getCardType();
     var displayArea = document.getElementById("cardType");
     displayArea.innerHTML = CARD_LOGO[type];
+    document.getElementById("front").style.background = CARD_COLOR[type];
+    document.getElementById("back").style.background = CARD_COLOR[type];
 }
 
 const validCard = () => {
@@ -96,4 +107,4 @@ const Cardnumber = () => {
 }
 
 export default Cardnumber
-export {getCardType,checkCard}
+export {getCardType,checkCard,validCard}

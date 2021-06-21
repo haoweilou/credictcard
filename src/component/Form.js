@@ -1,9 +1,9 @@
-import { checkCard, getCardType } from './Cardnumber';
+import React, { useState, useEffect } from 'react';
 import { updateCVV, updateCardName, updateExpire, displayFront, displayBack, updateDisplayCard } from './Card'
 import { API } from 'aws-amplify';
 import { createTodo, deleteTodo} from '../graphql/mutations';
 import { listTodos } from '../graphql/queries';
-import React, { useState, useEffect } from 'react';
+import { checkCard, getCardType, validCard } from './Cardnumber';
 
 
 //once user input their number, this function will be triggered to optimize the app
@@ -47,7 +47,7 @@ const Form = () => {
             displayErrorMessage("Please enter a valid number card number");
             return;
         } 
-        if(getCardType(number)===""){
+        if(getCardType(number)==="" || !validCard()){
             displayErrorMessage("Invalid card type");
             return;
         }
@@ -79,6 +79,7 @@ const Form = () => {
 
         API.graphql({query:createTodo,variables:{input:data}})
         getList();
+        checkCard();
         
     }
 
@@ -97,7 +98,12 @@ const Form = () => {
             return;
         }
         var id = getCardByNumber(number).id;
-        API.graphql({ query: deleteTodo, variables: { input: { id } }});
+        try{
+            API.graphql({ query: deleteTodo, variables: { input: { id } }});
+        }
+        catch (error) {
+            console.log(error);
+        }
         const removedArray = creditcards.filter(creditcard => creditcard.id !== id);
         setCreditcards(removedArray);
         clearForm();

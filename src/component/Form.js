@@ -79,7 +79,36 @@ const Form = () => {
 
         API.graphql({query:createTodo,variables:{input:data}})
         getList();
+        
+    }
 
+    function clearForm() {
+        document.getElementById("cardName").value = "";
+        document.getElementById("cardNumber").value = "";
+        document.getElementById("expireYear").value = "Year";
+        document.getElementById("expireMonth").value = "expireMonth";
+        document.getElementById("cvv").value = "";
+    }
+
+    function removeCreditcard() {
+        var number = checkCard();
+        if(!carExsit(number)){
+            displayErrorMessage("Card not exist in system");
+            return;
+        }
+        var id = getCardByNumber(number).id;
+        API.graphql({ query: deleteTodo, variables: { input: { id } }});
+        const removedArray = creditcards.filter(creditcard => creditcard.id !== id);
+        setCreditcards(removedArray);
+        clearForm();
+    }
+
+    const getCardByNumber = (number) => {
+        for (let index = 0; index < creditcards.length; index++) {
+            const creditcard = creditcards[index];
+            if(number === creditcard['number']){return creditcard;}
+        }
+        return null;
     }
 
     const carExsit = (number) => {
@@ -191,6 +220,13 @@ const Form = () => {
                         Submit
                     </span>
                 </div>
+
+                <div className="remove" id="remove" onClick={removeCreditcard} >
+                    <span>
+                        Remove
+                    </span>
+                </div>
+
                 <div className="erroMessage" id="errorMsg">
                     &nbsp;
                 </div>

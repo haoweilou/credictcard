@@ -137,3 +137,15 @@ div.submit {
     font-size: 1.3em;
     font-weight: 400;
 }
+
+.remove {
+    top: 13px;   
+    position: absolute;
+    left: 23px;
+    text-transform: uppercase;
+    color: white;
+    background-color: rgba(255, 0, 0, 0.616);
+    padding: 20px;
+    border-radius: 23px;
+    cursor: pointer;
+}

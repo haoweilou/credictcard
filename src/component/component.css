@@ -1,0 +1,119 @@
+.container {
+    width: 100%;
+    height: 100vh;
+    background-color: lightblue;
+    display: grid;
+}
+
+.form {
+    margin: 40px 0 0 0;
+    place-self: center;
+    min-width: 300px;
+    width: 70%;
+    max-width: 500px;
+    height: fit-content;
+    min-height: 300px;
+    background-color: white;
+    padding: 20px 3%;
+    box-sizing: border-box;
+    display: grid;
+    align-items: center;
+}
+
+.inputWrapper > label {
+    display: block;
+    margin: 0 0 5px 0;
+    cursor: pointer;
+}
+
+.inputWrapper > input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 4px;
+    font-size: 17px;
+    margin: 0 0 10px 0;
+    color: black;
+    outline: none;
+}
+
+input:focus {
+    border: 2px solid lightskyblue;
+    border-radius: 14px;
+    color: rgb(63, 115, 212);
+    box-shadow: 0px 13px 20px 1px rgba(65, 64, 64, 0.78);
+}
+
+span.cardType {
+    position: absolute;
+    display: inline-block;
+    top: 26px;
+    right: 4px;
+}
+
+.inputWrapper > select {
+    padding: 8px 4px;
+    font-size: 17px;
+    height: 40px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+select:focus {
+    border: 2px solid lightskyblue;
+    border-radius: 14px;
+    color: rgb(63, 115, 212);
+}
+
+.gridWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5%;
+}
+
+.two_one{
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+span > i.fab {
+    font-size: 40px;
+}
+
+div.submit {
+    width: 100%;
+    text-align: center;
+    padding: 14px 0;
+    background-color: #5690fa;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+    cursor: pointer;
+    margin: 30px 0 0 0;
+    transition: 2s;
+    user-select: none;
+}
+
+.submit:hover {
+    background-color: #33528d;
+    transition:2s;
+}
+
+.submit:active {
+    box-shadow: 0px 13px 20px 1px rgba(65, 64, 64, 0.78);
+    transition: 0s;
+}
+
+#previousCard {
+    width: 100%;
+}
+
+.cardOption {
+    color: silver;
+}
+
+.signoutButton{
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}

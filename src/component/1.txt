@@ -1,0 +1,156 @@
+import { checkCard } from './Cardnumber';
+import { updateCVV, updateCardName, updateExpire, displayFront, displayBack, updateDisplayCard } from './Card'
+
+import React, { useState, useEffect } from 'react';
+import { API, graphqlOperation } from 'aws-amplify';
+import {listCreditcards} from "../graphql/queries"
+import { createCreditcard as createNoteMutation, deleteCreditcard as deleteNoteMutation } from '../graphql/mutations';
+
+//once user input their number, this function will be triggered to optimize the app
+const initialFormState = {id:'', cardnumber: '', cardholdername: '',expiration:'',cvv:'' }
+const Form = () => {
+
+    var yearOption = [];
+    for (let index = 2020; index < 2040; index++) {
+        yearOption.push(<option key={index} value={index}>{index}</option>);
+    }
+
+    var monthOption = [];
+    for (let index = 1; index <= 12; index++) {
+        monthOption.push(<option key={index} value={index}>{index}</option>);
+    }
+
+
+    const [creditcards, setCreditCards] = useState([])
+    const [formData, setFormData] = useState(initialFormState);
+    useEffect(() => {
+        fetchCreditCards()
+    },[])
+
+
+    const fetchCreditCards = async () => {
+        try {
+            const creditData = await API.graphql(graphqlOperation(listCreditcards));
+            const creaditList = creditData.data.listCreditcards.items;
+            setCreditCards(creaditList);
+            console.log(creaditList);
+        } catch (error) {
+            console.log('error on fetching credit cards',error);
+         }
+    }
+
+    async function createNote() {
+        if (!formData.cardholdername || !formData.cvv) return;
+        await API.graphql({ query: createNoteMutation, variables: { input: formData } });
+        setCreditCards([ ...creditcards, formData ]);
+        setFormData(initialFormState);
+      }
+
+    const changeCardName = (e) => {
+        updateCardName();
+        setFormData({ ...formData, 'cardholdername': e.target.value})
+    }
+
+    const changeCardNumber = () => {
+        var number = checkCard();
+        setFormData({ ...formData, 'cardnumber': number})
+    }
+
+    const changeCardCvv = (e) => {
+        updateCVV();
+        setFormData({ ...formData, 'cvv': e.target.value})
+    }
+
+    const changeExpiration = () => {
+        var value = updateExpire();
+        setFormData({ ...formData, 'expiration': value})
+    }
+
+    async function deleteNote({ id }) {
+        const newNotesArray = creditcards.filter(credictcard => credictcard.id !== id);
+        setCreditCards(newNotesArray);
+        await API.graphql({ query: deleteNoteMutation, variables: { input: { id } }});
+    }
+
+    const loadCard = (e) => {
+        var value = e.target.value;
+        var data = JSON.parse(value);
+        document.getElementById("cardName").value = data['cardholdername'];
+        document.getElementById("cardNumber").value = data['cardnumber'];
+        document.getElementById("expireMonth").value = parseInt(data['expiration'].split("/")[0]);
+        document.getElementById("expireYear").value = 2000+parseInt(data['expiration'].split("/")[1]);
+        document.getElementById("cvv").value = data['cvv'];
+        updateDisplayCard();
+    }
+
+    return (
+        <div className="form">
+            <div className="inputArea">
+                <div className="inputWrapper">
+                    <label htmlFor="cardName">Cardholder Name</label>
+                    <input
+                        type="text"
+                        id="cardName"
+                        onChange={changeCardName}
+                        value={formData.cardholdername}
+                    />
+                </div>
+
+                <div className="inputWrapper" style={{position:"relative"}} onFocus={displayFront}>
+                    <label htmlFor="cardNumber">Card Number</label>
+                    <input
+                        type="text"
+                        id="cardNumber"
+                        onChange={changeCardNumber}
+                    />
+                    <span className="cardType" id="cardType"></span>
+                </div>
+
+                <div className="gridWrapper inputWrapper">
+                    <label htmlFor="expireYear">Expire Time</label>
+                    <div></div>
+                    <label htmlFor="cvv">CVV</label>
+                    <select name="" id="expireYear" defaultValue="Year" onChange={changeExpiration} onFocus={displayFront}>
+                        <option value="">Year</option>
+                        {yearOption}
+                    </select>
+
+                    <select name="" id="expireMonth" defaultValue="Month" onChange={changeExpiration} onFocus={displayFront}>
+                        <option value="">Month</option>
+                        {monthOption}
+                    </select>
+
+                    <input
+                        type="text"
+                        id="cvv"
+                        onFocus={displayBack}
+                        onChange={changeCardCvv}
+                    />
+                </div>
+
+                <div className="inputWrapper">
+                    <label htmlFor="cardName">Saved Card</label>
+                    <select name="previousCard" id="previousCard" onChange={loadCard}>
+                        <option value="">Cards</option>
+                        {creditcards.map (creditcard => {
+                            return (
+                                <option value= {JSON.stringify(creditcard)} className="cardOption">
+                                    {creditcard.cardnumber}
+                                </option>
+                            )
+                        })}
+                    </select>
+                </div>
+                
+                <div className="submit" id="submit" onClick={createNote}>
+                    <span>
+                        Submit
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    )
+}
+
+export default Form

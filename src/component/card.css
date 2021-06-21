@@ -1,0 +1,136 @@
+div.card {
+  width: 300px;
+  height: 189.2px;
+  border-radius: 10.09px;
+  position: fixed;
+  left: 50%;
+  right: 50%;
+  background: linear-gradient(#02aab0,#00cdac);
+  transform: translateX(-50%);
+  top: 10px;
+  box-sizing: border-box;
+  padding: 15px 13px;
+  user-select: none;
+  cursor: pointer;
+  box-shadow: 0px 0px 20px 4px grey;
+  transition: 2s;
+}
+
+.card:hover {
+  box-shadow: 0px 0px 24px 4px rgb(24, 24, 24);
+  transition: 2s;
+}
+
+.cardLabel {
+  font-size: 4px;
+  text-transform: lowercase;
+  color: rgb(223, 221, 221);
+  letter-spacing: 2px;
+  margin: 0 0 1px 0;
+}
+
+.cardElementWrapper {
+  position: fixed;
+}
+
+.cardNumber {
+  top: 40%;
+}
+
+.cardName {
+  bottom: 20%;
+}
+
+.expiration {
+  right: 10%;
+  bottom: 20%;
+}
+
+.cardValue {
+  color: white;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 4px;
+}
+
+.cardLogo {
+  width: 50px;
+  top: 0;
+  right: 0;
+}
+
+.cardLogo > img {
+  width: 100%;
+}
+
+.signitureWrapper {
+  width: 80%;
+  height: 30px;
+  display: grid;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  top: 40%;
+  left: 10%;
+  padding: auto 7px;
+  background:
+	repeating-linear-gradient(
+		45deg,
+		transparent,
+		transparent 1em,
+		moccasin 0,
+		moccasin 2em,
+		transparent 0,
+		transparent 3em,
+		powderblue 0,
+		powderblue 4em,
+		transparent 0,
+		transparent 5em,
+		lavender 0,
+		lavender 6em,
+		transparent 0,
+		transparent 7em,
+		beige 0,
+		beige 8em
+	),
+	repeating-linear-gradient(
+		-45deg,
+		transparent,
+		transparent 1em,
+		khaki 0,
+		khaki 2em,
+		transparent 0,
+		transparent 3em,
+		beige 0,
+		beige 4em,
+		transparent 0,
+		transparent 5em,
+		peachpuff 0,
+		peachpuff 6em
+	), whitesmoke;
+  background-blend-mode: multiply;
+}
+
+.cardSigniture {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.3em  ;
+  font-weight: 800;
+  margin-left: 3px;
+}
+
+div.cvv {
+  width: 20%;
+  position: absolute;
+  right: 0px;
+  height: 100%;
+  background-color: rgba(110, 110, 110, 0.815);
+  opacity: 10px;
+  display: grid;
+  align-items: center;
+  color: white;
+  font-weight: 600;
+  padding: 0 5px;
+  letter-spacing: 1.1px;
+  text-align: center;
+}
+

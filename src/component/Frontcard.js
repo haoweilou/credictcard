@@ -3,6 +3,9 @@ import React from 'react'
 const Frontcard = () => {
     return (
         <div className="card" id="front" style={{display:"block"}}>
+            <div className="cardElementWrapper cardIssuBank" id="issueBank">
+                issue Bank
+            </div>
             <div className="cardElementWrapper cardLogo">
                 <img src="/cardLogo/mastercard.png" alt="" id="cardlogo" />
             </div>

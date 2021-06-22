@@ -1,6 +1,6 @@
 import React from 'react'
 import {displayFront, updateDisplayCard} from "./Card"
-
+import data from "./data/cardData.json"
 const CARD_LOGO = {
     "master":'<i class="fab fa-cc-mastercard"></i>',
     "visa":'<i class="fab fa-cc-visa"></i>',
@@ -32,6 +32,24 @@ const getformatCardNumber = () => {
     return cardNumber;
 }
 
+const getBankById = (number) => {
+    for (let index = 0; index < data.length; index++) {
+        const creditcardData = data[index];
+        if(creditcardData['BIN'] === number){
+            return creditcardData;
+        }
+        
+    }
+    return {"ISSUING_ORGANIZATION_(BANK)":""}
+}
+
+const updateIssuBank = () => {
+    var cardnumber = getformatCardNumber();
+    var number  = parseInt(cardnumber.substring(0,6));
+    var bank = getBankById(number);
+    document.getElementById("issueBank").innerHTML = bank['ISSUING_ORGANIZATION_(BANK)'];
+}
+
 const checkCard = () => {
     var inputArea =  document.getElementById("cardNumber");
     updateCardType();
@@ -41,6 +59,7 @@ const checkCard = () => {
     inputArea.style.color = color;
     inputArea.value = getNumberWithSpace();
     updateDisplayCard();
+    updateIssuBank();
     return inputArea.value;
 }   
 

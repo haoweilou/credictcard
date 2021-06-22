@@ -138,3 +138,14 @@ div.cvv {
 option {
   font-family: 'Courier New', monospace;
 }
+
+.cardIssuBank {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  width: 240px;
+  font-weight: 600;
+}
